@@ -109,5 +109,6 @@ public class UserService {
         return userRepository.findById(userId)
                 .orElseThrow(() -> new CustomException( ErrorCode.USER_NOT_FOUND));
     }
+    // 유저아이디
 
 }
