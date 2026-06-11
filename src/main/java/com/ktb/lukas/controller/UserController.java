@@ -1,5 +1,8 @@
 package com.ktb.lukas.controller;
 
+import com.ktb.lukas.entity.User;
+import com.ktb.lukas.exception.CustomException;
+import com.ktb.lukas.exception.ErrorCode;
 import jakarta.validation.Valid;
 import com.ktb.lukas.dto.*;
 import com.ktb.lukas.Api.ApiResponse;
@@ -16,15 +19,16 @@ public class UserController {
 
     private final UserService userService;
 
+
     @PostMapping
-    public ResponseEntity<ApiResponse<UserResponseDto>> createUser(
-            @Valid @RequestBody UserRequestDto request
-    ) {
-        UserResponseDto result = userService.createUser(request);
-        return ResponseEntity
-                .status(HttpStatus.CREATED)
-                .header("Location", "/users" + result.getId())
-                .body(ApiResponse.of("USER_CREATED", result));
+    @ResponseStatus(HttpStatus.CREATED)
+    public ApiResponse<UserResponseDto> createUser(@Valid @RequestBody UserRequestDto request) {
+        UserResponseDto response = userService.createUser(request);
+        return new ApiResponse<>(
+                "SUCCESS",
+                "회원가입 성공",
+                response
+        );
     }
 
     @GetMapping("/{userId}")
@@ -41,10 +45,39 @@ public class UserController {
     }
 
     @DeleteMapping("/{userId}")
-    public ResponseEntity<ApiResponse<Void>> deleteUser(@PathVariable Long userId) {
+    public ApiResponse<Void> deleteUser(@PathVariable Long userId) {
         userService.deleteUser(userId);
-        return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(ApiResponse.of("USER_DELETED", null));
+        return new ApiResponse(
+                "SUCCESS",
+                "회원 삭제 완료",
+                null
+        );
+    }
+
+
+    @GetMapping
+    public ApiResponse<String> checkDuplicate(
+            @RequestParam(required = false) String email,
+            @RequestParam(required = false) String nickname
+    ) {
+
+        if (email != null) {
+            userService.checkEmail(email);
+            return new ApiResponse<>(
+                    "SUCCESS",
+                    "사용 가능한 이메일입니다.",
+                    "email_available"
+            );
+        }
+
+        if (nickname != null) {
+            userService.checkNickname(nickname);
+            return new ApiResponse<>(
+                    "SUCCESS",
+                    "사용 가능한 닉네임입니다.",
+                    "nickname_available"
+            );
+        }
+        throw new CustomException(ErrorCode.EMPTY_EMAIL);
     }
 }

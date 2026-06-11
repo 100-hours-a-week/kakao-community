@@ -1,39 +1,40 @@
 package com.ktb.lukas.entity;
-import jakarta.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
-
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class User {
+@Table(name = "USERS")
+public class User extends BaseTime{
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "user_id")
+    @Column(name = "USER_ID")
     private Long id;
-    @Column(name = "user_email")
+
+    @Column(name = "EMAIL", nullable = false, unique = true, length = 40)
     private String email;
-    @Column(name = "user_pwd")
+
+    @Column(name = "PASSWORD", nullable = false, length = 100)
     private String password;
-    @Column(name = "user_name")
+
+    @Column(name = "NICKNAME", nullable = false, unique = true, length = 10)
     private String nickname;
-    @Column(name = "profile_image")
+
+    @Column(name = "IMAGE_ID", nullable = true, length = 200)
     private String image;
 
-    @CreatedDate
-    @Column(name = "reg_dat")
-    private LocalDateTime createdDate;  //자동으로 생성일자 입력
-
-    @LastModifiedDate
-    @Column(name = "upd_dat")
-    private LocalDateTime lastModifiedDate;  //자동으로 수정일자 입력
 
     @OneToMany(mappedBy = "author")
     List<Post> posts = new ArrayList<>();

@@ -21,6 +21,6 @@ public class LoginRequest {
     @Pattern(
             regexp = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*#?&])[A-Za-z\\d@$!%*#?&]{8,}$",
             message = "INVALID_FORMAT"
-    ) // 영문, 숫자, 특수문자를 최소 1개씩 포함해야 함
+    )
     private String password;
 }

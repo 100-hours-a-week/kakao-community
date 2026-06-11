@@ -7,6 +7,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
@@ -28,18 +29,15 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {   // 한번�
     private static final String[] WHITE_LIST = {
             "/users",
             "/auth",
-            "/users/token/refresh"
+            "/users/token/refresh",
     };
 
 
-    // 화이트 리스트 확인해서 통과시켜주는 실제 로직
-    @Override
     protected boolean shouldNotFilter(@NonNull HttpServletRequest request) {
-        if ("POST".equalsIgnoreCase(request.getMethod())) {
-            return PatternMatchUtils.simpleMatch(WHITE_LIST, request.getRequestURI());
-        }
-        return false;
+        return HttpMethod.OPTIONS.matches(request.getMethod())
+                || PatternMatchUtils.simpleMatch(WHITE_LIST, request.getRequestURI());
     }
+
 
 
     @Override

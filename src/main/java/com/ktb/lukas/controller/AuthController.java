@@ -20,7 +20,7 @@ public class AuthController {
 
     // 로그인
     @PostMapping("/auth")
-    public ResponseEntity<ApiResponse<LoginResponse>> login(
+    public ApiResponse<LoginResponse> login(
 
             @Valid @RequestBody LoginRequest loginRequest,
             HttpServletResponse httpResponse
@@ -30,21 +30,22 @@ public class AuthController {
         ResponseCookie refreshCookie = ResponseCookie
                 .from("refreshToken", result.getRefreshToken())
                 .httpOnly(true)
-                .secure(false)
+                .secure(true)
                 .path("/")
                 .maxAge(14 * 24 * 60 * 60)
-                .sameSite("Strict")
+                .sameSite("Lax")
                 .build();
 
         httpResponse.addHeader(HttpHeaders.SET_COOKIE, refreshCookie.toString());
 
-        return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(ApiResponse.of("LOGIN_SUCCESS", result.getResponse()));
+        return ApiResponse.success(
+                "로그인 성공",
+                result.getResponse()
+        );
     }
 
-    @PostMapping("users/token/refresh")
-    public ResponseEntity<ApiResponse<TokenInfo>> refreshAccess(
+    @PostMapping("/users/token/refresh")
+    public ApiResponse<TokenInfo> refreshAccess(
             @CookieValue(name = "refreshToken", required = false) String refreshToken,
             HttpServletResponse httpResponse
     ) {
@@ -62,9 +63,9 @@ public class AuthController {
             httpResponse.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());
         }
 
-        return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(ApiResponse.of("TOKEN_REFRESH_SUCCESS", result.getToken()));
+        return ApiResponse.success(
+                "토큰 재발급 성공",
+                result.getToken()
+        );
     }
-
 }

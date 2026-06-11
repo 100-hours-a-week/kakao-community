@@ -4,7 +4,8 @@ import com.ktb.lukas.dto.PostRequestDto;
 import com.ktb.lukas.dto.PostResponseDto;
 import com.ktb.lukas.entity.Post;
 import com.ktb.lukas.entity.User;
-import com.ktb.lukas.exception.NotFoundException;
+import com.ktb.lukas.exception.CustomException;
+import com.ktb.lukas.exception.ErrorCode;
 import com.ktb.lukas.repository.UserRepository;
 import com.ktb.lukas.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +22,7 @@ public class PostService {
     @Transactional
     public PostResponseDto createPost(Long userId, PostRequestDto request) {
         User author = userRepository.findById(userId)
-                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+                .orElseThrow(() -> new CustomException( ErrorCode.USER_NOT_FOUND));
 
         Post post = new Post(
                 request.getTitle(),
@@ -36,16 +37,16 @@ public class PostService {
 
     @Transactional(readOnly = true)
     public PostResponseDto getPost(Long postId) {
-        Post post = postRepository.findById(postId)
-                .orElseThrow(() -> new IllegalArgumentException("Post not found"));
+        Post post = findPost(postId);
         return new PostResponseDto(post);
     }
 
     @Transactional
-    public PostResponseDto updatePost(Long postId, PostRequestDto request) {
-        Post post = postRepository.findById(postId)
-                .orElseThrow(() -> new IllegalArgumentException("Post not found"));
-
+    public PostResponseDto updatePost(Long userId, Long postId, PostRequestDto request) {
+        Post post = findPost(postId);
+        if (!post.getAuthor().getId().equals(userId)) {
+            throw new CustomException(ErrorCode.POST_UPDATE_FORBIDDEN);
+        }
         post.changeTitle(request.getTitle());
         post.changeContent(request.getContent());
 
@@ -53,7 +54,16 @@ public class PostService {
     }
 
     @Transactional
-    public void deletePost(Long postId) {
+    public void deletePost(Long userId, Long postId) {
+        Post post = findPost(postId);
+        if (!post.getAuthor().getId().equals(userId)) {
+            throw new CustomException(ErrorCode.POST_DELETE_FORBIDDEN);
+        }
         postRepository.deleteById(postId);
+    }
+
+    private Post findPost(Long postId) {
+        return postRepository.findById(postId)
+                .orElseThrow(() -> new CustomException( ErrorCode.POST_NOT_FOUND));
     }
 }

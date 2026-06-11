@@ -90,6 +90,7 @@ public class JwtProvider {
 
     // 파싱된 클레임의 type값이 access인지 확인 왜? Refresh 토큰인지 구별해야하니까 왜? 둘이 만료기간이 다르니까
 
+
     public boolean isAccessToken(String token) {
         return "access".equals(parse(token).getPayload().get("typ", String.class));
     }

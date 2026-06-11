@@ -1,13 +1,12 @@
 package com.ktb.lukas.entity;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import java.time.LocalDateTime;
 import jakarta.persistence.*;
 
 @Entity
 @Getter
 @RequiredArgsConstructor
-public class Post {
+public class Post extends BaseTime{
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "post_id")

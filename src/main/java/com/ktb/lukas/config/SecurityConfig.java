@@ -2,6 +2,7 @@ package com.ktb.lukas.config;
 
 import com.ktb.lukas.auth.JwtAuthenticationFilter;
 import com.ktb.lukas.Api.ApiResponse;
+import com.ktb.lukas.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -49,6 +50,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         // 회원가입은 누구나 할 수 있게 설정 POST /users
                         .requestMatchers(HttpMethod.POST, "/users").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/users").permitAll()
                         // 위에서 설정한 auth랑 refresh도 가능
                         .requestMatchers(PUBLIC_ENDPOINTS).permitAll()
                         // 나머지는 인증을 해야함
@@ -63,10 +65,8 @@ public class SecurityConfig {
                             response.setCharacterEncoding("UTF-8");
 
                             // API 규격으로 에러 반환하기 위해 선언
-                            ApiResponse<Void> apiResponse = ApiResponse.of(
-                                    "UNAUTHORIZED",
-                                    null
-                            );
+                            ApiResponse<Void> apiResponse =
+                                    ApiResponse.error(ErrorCode.INVALID_TOKEN);
 
                             PrintWriter writer = response.getWriter();
                             writer.write(objectMapper.writeValueAsString(apiResponse));
@@ -78,10 +78,8 @@ public class SecurityConfig {
                             response.setContentType(MediaType.APPLICATION_JSON_VALUE);
                             response.setCharacterEncoding("UTF-8");
 
-                            ApiResponse<Void> apiResponse = ApiResponse.of(
-                                    "FORBIDDEN",
-                                    null
-                            );
+                            ApiResponse<Void> apiResponse =
+                                    ApiResponse.error(ErrorCode.FORBIDDEN);
 
                             PrintWriter writer = response.getWriter();
                             writer.write(objectMapper.writeValueAsString(apiResponse));

@@ -4,7 +4,8 @@ import com.ktb.lukas.auth.JwtProvider;
 import com.ktb.lukas.dto.*;
 import com.ktb.lukas.entity.RefreshToken;
 import com.ktb.lukas.entity.User;
-import com.ktb.lukas.exception.AuthorizedException;
+import com.ktb.lukas.exception.CustomException;
+import com.ktb.lukas.exception.ErrorCode;
 import com.ktb.lukas.repository.RefreshTokenRepository;
 import com.ktb.lukas.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -27,13 +28,10 @@ public class AuthService {
 
     public LoginResult login(LoginRequest loginRequest) {
         User user = userRepository.findByEmail(loginRequest.getEmail())
-                .orElseThrow(() -> new AuthorizedException("INVALID_CREDENTIALS"));
+                .orElseThrow(() -> new CustomException(ErrorCode.INVALID_CREDENTIALS));
 
-        if (!passwordEncoder.matches(
-                loginRequest.getPassword(),
-                user.getPassword()
-        )) {
-            throw new AuthorizedException("INVALID_CREDENTIALS");
+        if (!passwordEncoder.matches(loginRequest.getPassword(), user.getPassword())) {
+            throw new CustomException(ErrorCode.INVALID_CREDENTIALS);
         }
 
 
@@ -44,6 +42,7 @@ public class AuthService {
         );
 
         String refreshToken = jwtProvider.createRefreshToken(user.getId());
+
         refreshTokenRepository.deleteByUserId(user.getId());
         refreshTokenRepository.save(
                 new RefreshToken(
@@ -61,16 +60,17 @@ public class AuthService {
 
     // 액세스 토큰 재발급
     public TokenResult refreshAccessToken(String refreshToken) {
+
         RefreshToken saved = refreshTokenRepository.findByToken(refreshToken)
-                .orElseThrow(() -> new AuthorizedException("UNAUTHORIZED"));
+                .orElseThrow(() -> new CustomException(ErrorCode.INVALID_TOKEN));
 
         if (saved.isExpired()) {
             refreshTokenRepository.delete(saved);
-            throw new AuthorizedException("UNAUTHORIZED");
+            throw new CustomException(ErrorCode.INVALID_TOKEN);
         }
 
         User user = userRepository.findById(saved.getUserId())
-                .orElseThrow(() -> new AuthorizedException("UNAUTHORIZED"));
+                .orElseThrow(() -> new CustomException(ErrorCode.INVALID_TOKEN));
 
         String newAccessToken = jwtProvider.createAccessToken(
                 user.getId(),
