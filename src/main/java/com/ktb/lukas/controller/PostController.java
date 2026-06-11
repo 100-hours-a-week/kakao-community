@@ -33,15 +33,23 @@ public class PostController {
     }
 
     @GetMapping("/{postId}")
-    public ApiResponse<PostResponseDto> getPost(@PathVariable Long postId) {
-            PostResponseDto result = postService.getPost(postId);
-            return ApiResponse.success(
-                    "게시글 가져오기 성공",
-                    result
-            );
+    public ApiResponse<PostResponseDto> getPost(
+            Authentication authentication,
+            @PathVariable Long postId
+    ) {
+
+        Long userId = (Long) authentication.getPrincipal();
+
+        PostResponseDto result = postService.getPost(userId, postId);
+
+        return ApiResponse.success(
+                "게시글 가져오기 성공",
+                result
+        );
     }
 
-    @PutMapping("/{postId}")
+
+    @PatchMapping("/{postId}")
     public ApiResponse<PostResponseDto> updatePost(
             Authentication authentication,
             @PathVariable Long postId,

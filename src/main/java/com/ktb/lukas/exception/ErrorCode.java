@@ -1,11 +1,12 @@
 package com.ktb.lukas.exception;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
 
 @Getter
+@AllArgsConstructor
 public enum ErrorCode {
-
 
     // role
     FORBIDDEN(HttpStatus.FORBIDDEN, "권한이 존재하지 않습니다."),
@@ -54,9 +55,5 @@ public enum ErrorCode {
     private final HttpStatus status;
     private final String message;
 
-    ErrorCode(HttpStatus status, String message) {
-        this.status = status;
-        this.message = message;
-    }
 
 }

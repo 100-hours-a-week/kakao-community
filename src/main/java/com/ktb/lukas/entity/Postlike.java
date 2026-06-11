@@ -1,7 +1,6 @@
-package com.ktb.lukas.entity;
+/*package com.ktb.lukas.entity;
 
 import jakarta.persistence.*;
-import lombok.Builder;
 import lombok.NoArgsConstructor;
 
 @Entity
@@ -12,9 +11,11 @@ public class Postlike {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_Id", nullable = false)
     private Long userId;
 
-    @Column(nullable = false)
+    @ManyToOne
+    @JoinColumn(name = "post_Id", nullable = false)
     private Long postId;
-}
+}*/

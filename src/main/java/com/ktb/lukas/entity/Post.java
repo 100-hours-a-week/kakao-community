@@ -25,11 +25,16 @@ public class Post extends BaseTime{
     @JoinColumn(name = "user_id")
     private User author;
 
+    private Integer likeCount;
+
+    private Integer ViewCount;
+
     public Post(String title, String content, String Image, User author) {
         this.title = title;
         this.content = content;
         this.Image = Image;
         this.author = author;
+        this.ViewCount = 0;
 
     }
 
@@ -40,4 +45,5 @@ public class Post extends BaseTime{
     public void changeContent(String content) {
         this.content = content;
     }
+    public void increaseViewCount() { this.ViewCount++; }
 }

@@ -9,16 +9,12 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    // 커스텀 에러 핸들러
     @ExceptionHandler(CustomException.class)
     public ResponseEntity<ApiResponse<Void>> handleCustomException(CustomException e) {
-        // CustomException 에서 enum(ErrorCode)를 꺼낸다.
         ErrorCode errorCode = e.getErrorCode();
-        // status -> errorCode의 status, // body -> errorCode
         return ResponseEntity.status(errorCode.getStatus()) .body(ApiResponse.error(errorCode));
     }
 
-    // 예기치 못한 서버 에러 핸들러
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ApiResponse<Void>> handleUnexpected(Exception e) {
         return ResponseEntity
@@ -26,3 +22,10 @@ public class GlobalExceptionHandler {
                 .body(ApiResponse.error(ErrorCode.INTERNAL_SERVER_ERROR));
     }
 }
+
+// CustomException 발생 시 실행
+// 예외 객체에서 ErrorCode를 꺼내고
+// ErrorCode의 상태코드(status)와 메시지로 응답을 생성한다.
+
+// 처리하지 못한 예외(Exception) 발생 시 실행
+// INTERNAL_SERVER_ERROR(500) 응답을 반환한다.

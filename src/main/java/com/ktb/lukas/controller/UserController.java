@@ -36,7 +36,7 @@ public class UserController {
         return userService.getUser(userId);
     }
 
-    @PutMapping("/{userId}")
+    @PatchMapping("/{userId}")
     public UserResponseDto updateSet(
             @PathVariable Long userId,
             @Valid @RequestBody UserRequestDto request

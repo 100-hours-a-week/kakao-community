@@ -8,8 +8,8 @@ public class CustomException extends RuntimeException {
     private final ErrorCode errorCode;
 
     public CustomException(ErrorCode errorCode) {
-        super(errorCode.getMessage()); // 1. message에 errorCode 메세지 옮기고
+        super(errorCode.getMessage()); // message에 errorCode 메세지 옮기고
 
-        this.errorCode = errorCode; // 2. CustomException의 errorCode 필드에 errorCode 저장
+        this.errorCode = errorCode; // errorCode 필드에 errorCode 저장
     }
 }
