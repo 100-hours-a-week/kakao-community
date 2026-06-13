@@ -1,11 +1,12 @@
 package com.ktb.lukas.entity;
+import lombok.AccessLevel;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import lombok.NoArgsConstructor;
 import jakarta.persistence.*;
 
 @Entity
 @Getter
-@RequiredArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Post extends BaseTime{
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,23 +28,31 @@ public class Post extends BaseTime{
 
     private Integer likeCount;
 
-    private Integer ViewCount;
+    private Integer viewCount;
 
     public Post(String title, String content, String Image, User author) {
         this.title = title;
         this.content = content;
         this.Image = Image;
         this.author = author;
-        this.ViewCount = 0;
+        this.viewCount = 0;
+        this.likeCount = 0;
 
     }
 
     public void changeTitle(String title) {
         this.title = title;
     }
-
     public void changeContent(String content) {
         this.content = content;
     }
-    public void increaseViewCount() { this.ViewCount++; }
+
+    public void increaseViewCount() { this.viewCount++; }
+    public void increaseLikeCount() {this.likeCount++;}
+
+    public void decreaseLikeCount() {
+        if (this.likeCount > 0) {
+            this.likeCount--;
+        }
+    }
 }

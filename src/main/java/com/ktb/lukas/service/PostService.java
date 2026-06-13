@@ -38,7 +38,7 @@ public class PostService {
         return new PostResponseDto(savedPost);
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     public PostResponseDto getPost(Long userId, Long postId) {
         Post post = findPost(postId);
         publisher.publishEvent(
@@ -48,9 +48,7 @@ public class PostService {
     }
 
     @Transactional
-    public PostResponseDto updatePost(Long userId,
-                                      Long postId,
-                                      PostRequestDto request) {
+    public PostResponseDto updatePost(Long userId, Long postId, PostRequestDto request) {
 
         Post post = findPost(postId);
 

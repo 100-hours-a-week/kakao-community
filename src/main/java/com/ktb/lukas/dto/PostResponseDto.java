@@ -2,6 +2,8 @@ package com.ktb.lukas.dto;
 import com.ktb.lukas.entity.Post;
 import lombok.Getter;
 
+import java.time.LocalDateTime;
+
 @Getter
 public class PostResponseDto {
     private Long id;
@@ -9,7 +11,10 @@ public class PostResponseDto {
     private String content;
     private String image;
     private Long authorId;
-    private Long viewCount;
+    private Integer viewCount;
+    private Integer likeCount;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
 
     public PostResponseDto(Post post) {
         this.id = post.getId();
@@ -17,6 +22,9 @@ public class PostResponseDto {
         this.content = post.getContent();
         this.image = post.getImage();
         this.authorId = post.getAuthor().getId();
-        this.viewCount = Long.valueOf(post.getViewCount());
+        this.viewCount = post.getViewCount();
+        this.likeCount = post.getLikeCount();
+        this.createdAt = post.getCreatedAt();
+        this.updatedAt = post.getUpdatedAt();
     }
 }

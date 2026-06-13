@@ -35,7 +35,6 @@ public class SecurityConfig {
     // 인증할 필요 없이 접근 가능한 API 주소
     private static final String[] PUBLIC_ENDPOINTS = {
             "/users",
-            "/auth",
             "/users/token/refresh"
     };
 

@@ -42,7 +42,7 @@ public enum ErrorCode {
     POST_UPDATE_FORBIDDEN(HttpStatus.FORBIDDEN, "게시글 작성자만 수정할 수 있습니다."),
     POST_DELETE_FORBIDDEN(HttpStatus.FORBIDDEN, "게시글 작성자만 삭제할 수 있습니다."),
 
-    // Post - like
+    // Postlike
     POST_ALREADY_LIKED(HttpStatus.CONFLICT, "이미 좋아요한 게시글입니다."),
     POST_LIKE_NOT_FOUND(HttpStatus.NOT_FOUND, "좋아요하지 않은 게시글입니다."),
     INVALID_PAGE_SIZE(HttpStatus.BAD_REQUEST, "size는 1 이상이어야 합니다."),
@@ -50,7 +50,14 @@ public enum ErrorCode {
     EMPTY_POST_TITLE(HttpStatus.BAD_REQUEST, "제목을 입력해주세요."),
     POST_TITLE_TOO_LONG(HttpStatus.BAD_REQUEST, "제목은 최대 26자까지 작성 가능합니다."),
     EMPTY_POST_CONTENT(HttpStatus.BAD_REQUEST, "내용을 입력해주세요."),
-    TOO_MANY_IMAGES(HttpStatus.BAD_REQUEST, "이미지 파일은 1개만 업로드할 수 있습니다.");
+    TOO_MANY_IMAGES(HttpStatus.BAD_REQUEST, "이미지 파일은 1개만 업로드할 수 있습니다."),
+
+    // Postcomment
+    COMMENT_NOT_FOUND(HttpStatus.NOT_FOUND, "댓글을 찾을 수 없습니다."),
+    COMMENT_UPDATE_FORBIDDEN(HttpStatus.FORBIDDEN, "댓글 작성자만 수정할 수 있습니다"),
+    COMMENT_DELETE_FORBIDDEN(HttpStatus.FORBIDDEN, "댓글 작성자만 삭제할 수 있습니다.");
+
+
 
     private final HttpStatus status;
     private final String message;

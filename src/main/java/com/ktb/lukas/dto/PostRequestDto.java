@@ -1,9 +1,7 @@
 package com.ktb.lukas.dto;
-import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 @Getter
 public class PostRequestDto {
