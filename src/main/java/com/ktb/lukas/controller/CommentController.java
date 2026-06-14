@@ -1,10 +1,8 @@
 package com.ktb.lukas.controller;
 
-import com.ktb.lukas.Api.ApiResponse;
+import com.ktb.lukas.api.ApiResponse;
 import com.ktb.lukas.dto.CommentRequest;
 import com.ktb.lukas.dto.CommentResponse;
-import com.ktb.lukas.entity.Comment;
-import com.ktb.lukas.entity.Post;
 import com.ktb.lukas.service.CommentService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -12,9 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor

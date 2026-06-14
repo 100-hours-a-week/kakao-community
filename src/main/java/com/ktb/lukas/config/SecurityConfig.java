@@ -1,7 +1,7 @@
 package com.ktb.lukas.config;
 
 import com.ktb.lukas.auth.JwtAuthenticationFilter;
-import com.ktb.lukas.Api.ApiResponse;
+import com.ktb.lukas.api.ApiResponse;
 import com.ktb.lukas.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;

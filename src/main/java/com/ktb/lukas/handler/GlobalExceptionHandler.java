@@ -1,5 +1,5 @@
 package com.ktb.lukas.handler;
-import com.ktb.lukas.Api.ApiResponse;
+import com.ktb.lukas.api.ApiResponse;
 import com.ktb.lukas.exception.CustomException;
 import com.ktb.lukas.exception.ErrorCode;
 import org.springframework.http.ResponseEntity;

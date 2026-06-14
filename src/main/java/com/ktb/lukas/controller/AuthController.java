@@ -1,6 +1,6 @@
 package com.ktb.lukas.controller;
 
-import com.ktb.lukas.Api.ApiResponse;
+import com.ktb.lukas.api.ApiResponse;
 import com.ktb.lukas.dto.*;
 import com.ktb.lukas.service.AuthService;
 import jakarta.servlet.http.HttpServletResponse;

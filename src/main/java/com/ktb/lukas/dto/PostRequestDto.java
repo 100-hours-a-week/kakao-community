@@ -13,5 +13,5 @@ public class PostRequestDto {
     @NotBlank                               // 공백 여부 어노테이션
     private String content;
 
-    private String Image;
+    private String image;
 }

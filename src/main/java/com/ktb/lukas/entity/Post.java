@@ -19,8 +19,8 @@ public class Post extends BaseTime{
     @Column(name = "post_content")
     private String content;
 
-    @Column(name = "post_Image")
-    private String Image;
+    @Column(name = "post_image")
+    private String image;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
@@ -30,10 +30,10 @@ public class Post extends BaseTime{
 
     private Integer viewCount;
 
-    public Post(String title, String content, String Image, User author) {
+    public Post(String title, String content, String image, User author) {
         this.title = title;
         this.content = content;
-        this.Image = Image;
+        this.image = image;
         this.author = author;
         this.viewCount = 0;
         this.likeCount = 0;

@@ -1,4 +1,4 @@
-package com.ktb.lukas.Api;
+package com.ktb.lukas.api;
 
 import com.ktb.lukas.exception.ErrorCode;
 import lombok.Getter;

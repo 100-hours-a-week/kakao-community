@@ -3,7 +3,7 @@ package com.ktb.lukas.controller;
 import jakarta.validation.Valid;
 import com.ktb.lukas.dto.PostRequestDto;
 import com.ktb.lukas.dto.PostResponseDto;
-import com.ktb.lukas.Api.ApiResponse;
+import com.ktb.lukas.api.ApiResponse;
 import com.ktb.lukas.service.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

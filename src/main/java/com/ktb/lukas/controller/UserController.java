@@ -1,14 +1,12 @@
 package com.ktb.lukas.controller;
 
-import com.ktb.lukas.entity.User;
 import com.ktb.lukas.exception.CustomException;
 import com.ktb.lukas.exception.ErrorCode;
 import jakarta.validation.Valid;
 import com.ktb.lukas.dto.*;
-import com.ktb.lukas.Api.ApiResponse;
+import com.ktb.lukas.api.ApiResponse;
 import com.ktb.lukas.service.UserService;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
